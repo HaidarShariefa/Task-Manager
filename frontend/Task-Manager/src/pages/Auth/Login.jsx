@@ -1,21 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import Input from "../../components/Inputs/Input";
 import { validateEmail } from "../../utils/helper";
-import  axiosInstance  from "../../utils/axiosInstance";
+import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
+import { UserContext } from "../../context/userContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
+  const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   // Handle login form submission
   async function handleLogin(e) {
     e.preventDefault();
+
 
     if (!validateEmail(email)) {
       setError("Please enter a valid email address");
@@ -40,6 +43,7 @@ export default function Login() {
 
       if (token) {
         localStorage.setItem("token", token);
+        updateUser(response.data);
 
         // Redirect based on role
         if (role === "admin") {

@@ -12,7 +12,7 @@ function generateToken(userId) {
 // @access Public
 async function registerUser(req, res) {
   try {
-    const { name, email, password, profileImageUrl, adminInviteToken } =
+    const { name, email, password, profileImgUrl, adminInviteToken } =
       req.body;
 
     //check if user exists
@@ -39,7 +39,7 @@ async function registerUser(req, res) {
       name,
       email,
       password: hashedPassword,
-      profileImageUrl,
+      profileImgUrl,
       role,
     });
 
@@ -49,7 +49,7 @@ async function registerUser(req, res) {
       name: user.name,
       email: user.email,
       role: user.role,
-      profileImageUrl: user.profileImageUrl,
+      profileImgUrl: user.profileImgUrl,
       token: generateToken(user._id),
     });
   } catch (err) {
@@ -81,7 +81,7 @@ async function loginUser(req, res) {
       name: user.name,
       email: user.email,
       role: user.role,
-      profileImageUrl: user.profileImgUrl,
+      profileImgUrl: user.profileImgUrl,
       token: generateToken(user._id),
     });
   } catch (err) {

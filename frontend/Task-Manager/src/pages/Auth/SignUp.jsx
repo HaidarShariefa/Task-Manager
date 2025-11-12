@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import { validateEmail } from "../../utils/helper";
 import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
 import Input from "../../components/Inputs/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
+import { UserContext } from "../../context/userContext";
+import uploadImage from "../../utils/uploadImage";
 
 export default function SignUp() {
   const [profilePic, setProfilePic] = useState(null);
@@ -12,11 +16,16 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [adminInviteToken, setAdminInviteToken] = useState("");
 
+  const { updateUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const [error, setError] = useState(null);
 
   // Handle signup form submission
   async function handleSignUp(e) {
     e.preventDefault();
+
+    let profileImgUrl = "";
 
     if (!fullName) {
       setError("Please enter your full name");
@@ -35,6 +44,40 @@ export default function SignUp() {
     setError("");
 
     // Signup api call
+    try {
+      // Upload profile image if present
+      if (profilePic) {
+        const imgUploadRes = await uploadImage(profilePic);
+        profileImgUrl = imgUploadRes.imageUrl || "";
+      }
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        name: fullName,
+        email,
+        password,
+        profileImgUrl,
+        adminInviteToken,
+      });
+
+      const { token, role } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(response.data);
+
+        // Redirect based on role
+        if (role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/user/dashboard");
+        }
+      }
+    } catch (err) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong, please try again.");
+      }
+    }
   }
 
   return (
