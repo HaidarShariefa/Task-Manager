@@ -28,6 +28,11 @@ export default function Login() {
     setError("");
 
     // Login api call
+    try{
+
+    }catch(err){
+      
+    }
   }
 
   return (
