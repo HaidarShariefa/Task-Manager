@@ -31,16 +31,16 @@ export default function TaskListTable({ tableData }) {
       <table className="min-w-full">
         <thead>
           <tr className="text-left">
-            <th className="py-3 px-4 text-gray-800 font-bold text-[13px]">
+            <th className="py-3 px-4 text-gray-800 font-semibold text-[13px]">
               Name
             </th>
-            <th className="py-3 px-4 text-gray-800 font-bold text-[13px]">
+            <th className="py-3 px-4 text-gray-800 font-semibold text-[13px]">
               Status
             </th>
-            <th className="py-3 px-4 text-gray-800 font-bold text-[13px]">
+            <th className="py-3 px-4 text-gray-800 font-semibold text-[13px]">
               Priority
             </th>
-            <th className="py-3 px-4 text-gray-800 font-bold text-[13px] hidden md:table-cell">
+            <th className="py-3 px-4 text-gray-800 font-semibold text-[13px] hidden md:table-cell">
               Created On
             </th>
           </tr>
