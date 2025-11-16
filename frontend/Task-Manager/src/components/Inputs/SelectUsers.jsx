@@ -3,6 +3,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import { LuUsers } from "react-icons/lu";
 import Modal from "../Modal";
+import AvatarGroup from "../AvatarGroup";
 
 export default function SelectUsers({ selectedUsers, setSelectedUsers }) {
   const [allUsers, setAllUsers] = useState([]);
@@ -58,6 +59,12 @@ export default function SelectUsers({ selectedUsers, setSelectedUsers }) {
           <LuUsers className="text-sm" /> Add Members
         </button>
       )}
+
+      {selectedUserAvatars.length > 0 && (
+        <div className="cursor-pointer" onClick={() => setIsModalOpen(true)}>
+          <AvatarGroup avatars={selectedUserAvatars} maxVisible={3} />
+        </div>
+      )}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -70,14 +77,13 @@ export default function SelectUsers({ selectedUsers, setSelectedUsers }) {
               className="flex items-center gap-4 p-3 border-b border-gray-200"
             >
               <img
-                src={user.profileImgUrl}
+                src={user.profileImgUrl || null}
                 alt={user.name}
                 className="w-10 h-10 rounded-full"
               />
+
               <div className="flex-1">
-                <p className="font-medium text-gray-800 dark:text-white">
-                  {user.name}
-                </p>
+                <p className="font-medium text-gray-800">{user.name}</p>
                 <p className="text-[13px] text-gray-500">{user.email}</p>
               </div>
 
@@ -89,6 +95,15 @@ export default function SelectUsers({ selectedUsers, setSelectedUsers }) {
               />
             </div>
           ))}
+        </div>
+
+        <div className="flex justify-end gap-4 pt-4">
+          <button className="card-btn" onClick={() => setIsModalOpen(false)}>
+            CANCEL
+          </button>
+          <button className="card-btn-fill" onClick={handleAssign}>
+            SAVE
+          </button>
         </div>
       </Modal>
     </div>

@@ -19,7 +19,7 @@ export default function CreateTask() {
     title: "",
     description: "",
     priority: "Low",
-    dueData: null,
+    dueData: "",
     assignedTo: [],
     todoChecklist: [],
     attachments: [],
@@ -142,8 +142,8 @@ export default function CreateTask() {
                 </label>
                 <SelectUsers
                   selectedUsers={taskData.assignedTo}
-                  setSelectedUser={(e) =>
-                    handleValueChange("assignedTo", e.target.value)
+                  setSelectedUsers={(value) =>
+                    handleValueChange("assignedTo", value)
                   }
                 />
               </div>
