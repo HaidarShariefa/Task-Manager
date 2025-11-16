@@ -8,6 +8,7 @@ import moment from "moment";
 import { LuTrash2 } from "react-icons/lu";
 import { useState } from "react";
 import SelectDropDown from "../../components/Inputs/SelectDropDown";
+import SelectUsers from "../../components/Inputs/SelectUsers";
 
 export default function CreateTask() {
   const location = useLocation();
@@ -119,6 +120,31 @@ export default function CreateTask() {
                   value={taskData.priority}
                   onChange={(value) => handleValueChange("priority", value)}
                   placeholder="Select Priority"
+                />
+              </div>
+
+              <div className="col-span-6 md:col-span-4">
+                <label className="text-xs font-medium text-slate-600">
+                  Due Date
+                </label>
+                <input
+                  placeholder="Due Date"
+                  className="form-input"
+                  value={taskData.dueData}
+                  onChange={(e) => handleValueChange("dueData", e.target.value)}
+                  type="date"
+                />
+              </div>
+
+              <div className="col-span-12 md:col-span-3">
+                <label className="text-xs font-medium text-slate-600">
+                  Assigned To
+                </label>
+                <SelectUsers
+                  selectedUsers={taskData.assignedTo}
+                  setSelectedUser={(e) =>
+                    handleValueChange("assignedTo", e.target.value)
+                  }
                 />
               </div>
             </div>
