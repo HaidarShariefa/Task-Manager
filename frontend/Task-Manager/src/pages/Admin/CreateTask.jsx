@@ -9,6 +9,8 @@ import { LuTrash2 } from "react-icons/lu";
 import { useState } from "react";
 import SelectDropDown from "../../components/Inputs/SelectDropDown";
 import SelectUsers from "../../components/Inputs/SelectUsers";
+import TodoListInput from "../../components/Inputs/TodoListInput";
+import AddAttachmentsInput from "../../components/Inputs/AddAttachmentsInput";
 
 export default function CreateTask() {
   const location = useLocation();
@@ -110,6 +112,7 @@ export default function CreateTask() {
               ></textarea>
             </div>
 
+            {/* User Selection Input */}
             <div className="grid grid-cols-12 gap-4 mt-2">
               <div className="col-span-6 md:col-span-4">
                 <label className="text-xs font-semibold text-slate-600">
@@ -147,6 +150,34 @@ export default function CreateTask() {
                   }
                 />
               </div>
+            </div>
+
+            {/* TODO Checklist Input */}
+            <div className="mt-3">
+              <label className="text-xs font-medium text-slate-600">
+                TODO Checklist
+              </label>
+
+              <TodoListInput
+                todoList={taskData?.todoChecklist}
+                setTodoList={(value) =>
+                  handleValueChange("todoChecklist", value)
+                }
+              />
+            </div>
+
+            {/* Attachments Input */}
+            <div className="mt-3">
+              <label className="text-xs font-medium text-slate-600">
+                Add Attachments
+              </label>
+
+              <AddAttachmentsInput
+                attachments={taskData?.attachments}
+                setAttachments={(value) =>
+                  handleValueChange("attachments", value)
+                }
+              />
             </div>
           </div>
         </div>
