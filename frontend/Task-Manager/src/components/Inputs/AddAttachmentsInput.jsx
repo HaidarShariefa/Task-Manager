@@ -48,7 +48,7 @@ export default function AddAttachmentsInput({ attachments, setAttachments }) {
             type="text"
             placeholder="Add File Link"
             value={option}
-            onChange={(target) => setOption(target.value)}
+            onChange={(e) => setOption(e.target.value)}
             className="w-full text-[13px] text-black outline-none bg-white py-2"
           />
         </div>
