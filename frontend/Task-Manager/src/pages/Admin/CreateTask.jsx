@@ -50,12 +50,64 @@ export default function CreateTask() {
   }
 
   // Create Task
-  async function createTask() {}
+  async function createTask() {
+    setLoading(true);
+
+    try {
+      const todolist = taskData.todoChecklist.map((item) => ({
+        task: item,
+        completed: false,
+      }));
+
+      const response = await axiosInstance.post(API_PATHS.TASKS.CREATE_TASK, {
+        ...taskData,
+        dueDate: new Date(taskData.dueData).toISOString(),
+        todoChecklist: todolist,
+      });
+
+      toast.success("Task created successfully");
+      clearData();
+    } catch (error) {
+      console.error("Error creating task:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   // Update Task
   async function updateTask() {}
 
-  async function handleSubmit() {}
+  async function handleSubmit() {
+    setError(null);
+
+    // validate inputs
+    if (!taskData.title.trim()) {
+      setError("Task Title is required");
+      return;
+    }
+    if (!taskData.description.trim()) {
+      setError("Task Description is required");
+      return;
+    }
+    if (!taskData.dueData) {
+      setError("Due Date is required");
+      return;
+    }
+    if (taskData.assignedTo.length === 0) {
+      setError("Please assign the task to at least one user");
+      return;
+    }
+    if (taskData.todoChecklist.length === 0) {
+      setError("Please add at least one TODO task");
+      return;
+    }
+    if (taskId) {
+      updateTask();
+      return;
+    }
+
+    createTask();
+  }
 
   // get task info by ID
   async function getTaskDetailsByID() {}
@@ -178,6 +230,20 @@ export default function CreateTask() {
                   handleValueChange("attachments", value)
                 }
               />
+            </div>
+
+            {error && (
+              <p className="text-xs font-medium text-red-500 mt-5">{error}</p>
+            )}
+
+            <div className="flex justify-end mt-7">
+              <button
+                className="add-btn"
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {taskId ? "UPDATE TASK" : "CREATE TASK"}
+              </button>
             </div>
           </div>
         </div>
