@@ -54,8 +54,8 @@ export default function CreateTask() {
     setLoading(true);
 
     try {
-      const todolist = taskData.todoChecklist.map((item) => ({
-        task: item,
+      const todolist = taskData.todoChecklist?.map((item) => ({
+        text: item,
         completed: false,
       }));
 
@@ -67,8 +67,9 @@ export default function CreateTask() {
 
       toast.success("Task created successfully");
       clearData();
-    } catch (error) {
-      console.error("Error creating task:", error);
+    } catch (err) {
+      console.error("Error creating task:", err);
+      setLoading(false);
     } finally {
       setLoading(false);
     }
