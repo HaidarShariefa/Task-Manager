@@ -1,10 +1,9 @@
-import DashboardLayout from "../../components/layouts/DashboardLayout";
+import DashboardLayout from "../../components/Layouts/DashboardLayout";
 import { PRIORITY_DATA } from "../../utils/data";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
-import moment from "moment";
 import { LuTrash2 } from "react-icons/lu";
 import { useState } from "react";
 import SelectDropDown from "../../components/Inputs/SelectDropDown";
