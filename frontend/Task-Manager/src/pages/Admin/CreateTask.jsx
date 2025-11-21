@@ -5,7 +5,8 @@ import { API_PATHS } from "../../utils/apiPaths";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LuTrash2 } from "react-icons/lu";
-import { useState } from "react";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import SelectDropDown from "../../components/Inputs/SelectDropDown";
 import SelectUsers from "../../components/Inputs/SelectUsers";
 import TodoListInput from "../../components/Inputs/TodoListInput";
@@ -110,10 +111,46 @@ export default function CreateTask() {
   }
 
   // get task info by ID
-  async function getTaskDetailsByID() {}
+  async function getTaskDetailsByID() {
+    try {
+      const response = await axiosInstance.get(
+        API_PATHS.TASKS.GET_TASK_BY_ID(taskId)
+      );
+
+      if (response.data) {
+        const taskInfo = response.data;
+        setCurrentTask(taskInfo);
+
+        setTaskData((prevState) => ({
+          title: taskInfo.title,
+          description: taskInfo.description,
+          priority: taskInfo.priority,
+          status: taskInfo.status,
+          dueData: taskInfo.dueDate
+            ? moment(taskInfo.dueDate).format("YYYY-MM-DD")
+            : null,
+          assignedTo: taskInfo?.assignedTo?.map((item) => item._id) || [],
+          todoChecklist:
+            taskInfo?.todoChecklist?.map((item) => item.text) || [],
+          attachments: taskInfo?.attachments || [],
+        }));
+      }
+    } catch (err) {
+      console.error("Error fetching task details:", err);
+    }
+  }
 
   // delete task
   async function deleteTask() {}
+
+  useEffect(() => {
+    if (taskId) {
+      getTaskDetailsByID(taskId);
+    }
+
+    return () => {};
+  }, [taskId]);
+
   return (
     <DashboardLayout activeMenu="Create Task">
       <div className="mt-5">
