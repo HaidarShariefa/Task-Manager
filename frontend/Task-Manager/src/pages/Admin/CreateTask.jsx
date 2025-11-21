@@ -11,6 +11,7 @@ import SelectDropDown from "../../components/Inputs/SelectDropDown";
 import SelectUsers from "../../components/Inputs/SelectUsers";
 import TodoListInput from "../../components/Inputs/TodoListInput";
 import AddAttachmentsInput from "../../components/Inputs/AddAttachmentsInput";
+import axios from "axios";
 
 export default function CreateTask() {
   const location = useLocation();
@@ -76,7 +77,40 @@ export default function CreateTask() {
   }
 
   // Update Task
-  async function updateTask() {}
+  async function updateTask() {
+    setLoading(true);
+
+    try {
+      const todolist = taskData.todoChecklist?.map((item) => {
+        const prevTodoChecklist = currentTask?.todoChecklist || [];
+        const matchedTask = prevTodoChecklist.find(
+          (task) => task.text === item
+        );
+
+        return {
+          text: item,
+          completed: matchedTask ? matchedTask.completed : false,
+        };
+      });
+
+      const response = await axiosInstance.put(
+        API_PATHS.TASKS.UPDATE_TASK(taskId),
+        {
+          ...taskData,
+          dueDate: new Date(taskData.dueData).toISOString(),
+          todoChecklist: todolist,
+        }
+      );
+
+      toast.success("Task updated successfully");
+    } catch (err) {
+      console.error("Error updating task:", err);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+      navigate(-1);
+    }
+  }
 
   async function handleSubmit() {
     setError(null);
