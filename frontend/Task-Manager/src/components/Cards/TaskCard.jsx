@@ -8,6 +8,7 @@ export default function TaskCard({
   description,
   priority,
   progress,
+  status,
   createdAt,
   dueDate,
   assignedTo,
@@ -48,7 +49,7 @@ export default function TaskCard({
           {status}
         </div>
         <div
-          className={`text-[11px] font-medium ${getPriorityTagColor} px-4 py-0.5 rounded`}
+          className={`text-[11px] font-medium ${getPriorityTagColor()} px-4 py-0.5 rounded`}
         >
           {priority} Priority
         </div>
@@ -70,7 +71,7 @@ export default function TaskCard({
           {description}
         </p>
         <p className="text-[13px] text-gray-700/80 font-medium mt-2 mb-2 leading-[18px]">
-          Task Done: {""}
+          Tasks Done: {""}
           <span className="font-semibold text-gray-700">
             {completedTodoCount} / {todoChecklist.length || 0}
           </span>
@@ -101,8 +102,8 @@ export default function TaskCard({
 
           {attachmentCount > 0 && (
             <div className="flex items-center gap-2 text-blue-50 px-2.5 py-1.5 rounded-lg">
-              <LuPaperclip className="" />{" "}
-              <span className="">{attachmentCount}</span>
+              <LuPaperclip className="text-blue-700" />{" "}
+              <span className="text-xs text-gray-900">{attachmentCount}</span>
             </div>
           )}
         </div>

@@ -94,6 +94,7 @@ export default function ManageTasks() {
               description={item.description}
               priority={item.priority}
               progress={item.progress}
+              status={item.status}
               createdAt={item.createdAt}
               dueDate={item.dueDate}
               assignedTo={item.assignedTo?.map((item) => item.profileImgUrl)}
