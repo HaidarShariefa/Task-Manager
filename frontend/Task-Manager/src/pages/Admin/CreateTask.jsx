@@ -12,6 +12,8 @@ import SelectUsers from "../../components/Inputs/SelectUsers";
 import TodoListInput from "../../components/Inputs/TodoListInput";
 import AddAttachmentsInput from "../../components/Inputs/AddAttachmentsInput";
 import axios from "axios";
+import DeleteAlert from "../../components/DeleteAlert";
+import Modal from "../../components/Modal";
 
 export default function CreateTask() {
   const location = useLocation();
@@ -175,7 +177,20 @@ export default function CreateTask() {
   }
 
   // delete task
-  async function deleteTask() {}
+  async function deleteTask() {
+    try {
+      await axiosInstance.delete(API_PATHS.TASKS.DELETE_TASK(taskId));
+
+      setOpenDeleteAlert(false);
+      toast.success("Task deleted successfully");
+      navigate("/admin/tasks");
+    } catch (err) {
+      console.error(
+        "Error deleting task:",
+        err.response?.data?.message || err.message
+      );
+    }
+  }
 
   useEffect(() => {
     if (taskId) {
@@ -319,6 +334,17 @@ export default function CreateTask() {
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={openDeleteAlert}
+        onClose={() => setOpenDeleteAlert(false)}
+        title="Delete Task"
+      >
+        <DeleteAlert
+          content="Are you sure you want to delete this task? This action cannot be undone."
+          onDelete={deleteTask}
+        />
+      </Modal>
     </DashboardLayout>
   );
 }
