@@ -33,7 +33,7 @@ async function exportTasksReport(req, res) {
         priority: task.priority,
         status: task.status,
         dueDate: task.dueDate.toISOString().split("T")[0],
-        assignedTo: task.assignedTo || "Unassigned",
+        assignedTo: assignedTo || "Unassigned",
       });
     });
 

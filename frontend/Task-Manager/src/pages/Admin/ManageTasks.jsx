@@ -43,8 +43,27 @@ export default function ManageTasks() {
     navigate("/admin/create-task", { state: { taskId: taskData._id } });
   }
 
-  // Download Tasks report
-  async function handleDownloadReport() {}
+  // download users report
+  async function handleDownloadReport() {
+    try {
+      const response = await axiosInstance.get(API_PATHS.REPORTS.EXPORT_TASKS, {
+        responseType: "blob",
+      });
+
+      // Create a URL for the blob
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "task_details.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Error downloading tasks report: ", err);
+      toast.error("Failed to download report. Please try again.");
+    }
+  }
 
   useEffect(() => {
     getAllTasks(filterStatus);

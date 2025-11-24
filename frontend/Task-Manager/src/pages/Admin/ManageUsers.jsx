@@ -20,7 +20,26 @@ export default function ManageUsers() {
   }
 
   // download users report
-  async function handleDownloadReport() {}
+  async function handleDownloadReport() {
+    try {
+      const response = await axiosInstance.get(API_PATHS.REPORTS.EXPORT_USERS, {
+        responseType: "blob",
+      });
+
+      // Create a URL for the blob
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "user_details.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Error downloading users report: ", err);
+      toast.error("Failed to download report. Please try again.");
+    }
+  }
 
   useEffect(() => {
     getAllUsers();
