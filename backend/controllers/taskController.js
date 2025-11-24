@@ -370,7 +370,7 @@ async function getUserDasboardData(req, res) {
     const taskDistribution = taskStatuses.reduce((acc, status) => {
       const formattedKey = status.replace(/\s+/g, ""); // Remove spaces for response
       acc[formattedKey] =
-        taskDistributionRaw.find((item) => item._d === status)?.count || 0;
+        taskDistributionRaw.find((item) => item._id === status)?.count || 0;
       return acc;
     }, {});
     taskDistribution["All"] = totalTasks; // Add total count to taskDistribution
