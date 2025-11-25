@@ -240,7 +240,7 @@ async function updateTaskChecklist(req, res) {
       totalItems > 0 ? Math.round((completedCount / totalItems) * 100) : 0;
 
     // Auto mark tasks as completed if all marks are checked
-    if ((task.progress = 100)) {
+    if (task.progress === 100) {
       task.status = "Completed";
     } else if (task.progress > 0) {
       task.status = "In Progress";
