@@ -47,6 +47,11 @@ export default function SideMenu({ activeMenu }) {
             Admin
           </div>
         )}
+        {user?.role === "member" && (
+          <div className="text-[10px] font-medium text-white bg-blue-700 px-3 py-0.5 rounded mt-1">
+            Member
+          </div>
+        )}
 
         <h5 className="text-gray-950 font-medium leading-6 mt-3">
           {user?.name || ""}
