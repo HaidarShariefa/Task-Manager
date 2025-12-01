@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import AuthLayout from "../../components/layouts/AuthLayout";
+import AuthLayout from "../../components/Layouts/AuthLayout";
 import { validateEmail } from "../../utils/helper";
 import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
 import Input from "../../components/Inputs/Input";
